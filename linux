@@ -191,8 +191,73 @@ The tar command is used to combine multiple files and directories into a single 
 | `-J`   | `tar -cJvf archive.tar.xz file1 dir/`   | Compress the archive with xz (`.xz`)     |
 
 ============================================================================================================
+# User Management Commands for AWS Linux
+# ==========================================
 
+# 1. Add a new user (replace 'john' with your desired username)
+sudo adduser john
 
+# 2. Set a password for the user
+sudo passwd john
+
+# 3. Add the user to a group (replace 'developers' with your group name)
+sudo usermod -aG developers john
+
+# 4. Set the user's default shell (e.g., bash, zsh, or others from /etc/shells)
+sudo usermod -s /bin/bash john
+
+# 5. (Alternative) Create user with home dir, shell, and group in one line
+# sudo useradd -m -s /bin/bash -G developers john
+# sudo passwd john
+
+# 6. Verify user details
+getent passwd john
+id john
+groups john
+
+# 7. (Optional) Delete the user (without or with home directory)
+# sudo userdel john
+# sudo userdel -r john
+
+============================================================================================================
+
+🚀 Complete Group Management Commands for AWS/Linux Systems
+
+# 1. Create a new group (replace 'developers' with your group name)
+sudo groupadd developers
+
+# 2. Verify the group was created
+getent group developers
+
+# 3. Add a user to the group (replace 'john' and 'developers')
+sudo usermod -aG developers john
+
+# 4. Check which groups a user belongs to
+groups john
+id john
+
+# 5. List all groups on the system
+getent group
+
+# 6. Create a user and add to a group in one step
+sudo useradd -m -s /bin/bash -G developers john
+sudo passwd john
+
+# 7. Remove a user from a group (requires editing)
+# Option 1: Manually edit the group file
+sudo vigr /etc/group
+# Then remove 'john' from the 'developers' group line
+
+# 8. Change a user's **primary group**
+sudo usermod -g developers john
+
+# 9. Delete a group
+sudo groupdel developers
+
+# 10. See members of a specific group
+getent group developers
+
+============================================================================================================
 
 chown : Changes file ownership.
 Usage:
