@@ -1,0 +1,626 @@
+Linux / Unix 
+
+Linux/Unix file system hierarchy — starting from the root (/) — with a description of each top-level directory.
+================================================================================================================================
+
+| Directory    | Description                                                                |
+| ------------ | -------------------------------------------------------------------------- |
+| `/`          | Root directory – the top of the file system hierarchy                      |
+| `/bin`       | Essential user binaries (e.g., `ls`, `cp`, `mv`) needed for basic commands |
+| `/sbin`      | System binaries used for administration (e.g., `reboot`, `ifconfig`)       |
+| `/boot`      | Bootloader files (e.g., GRUB, kernel)                                      |
+| `/dev`       | Device files (e.g., `/dev/sda`, `/dev/null`)                               |
+| `/etc`       | System-wide configuration files                                            |
+| `/home`      | User home directories (e.g., `/home/user`)                                 |
+| `/lib`       | Shared libraries required by binaries in `/bin` and `/sbin`                |
+| `/lib64`     | 64-bit system libraries (on 64-bit systems)                                |
+| `/media`     | Mount point for removable media (USB, CD-ROM)                              |
+| `/mnt`       | Temporary mount point (used for mounting filesystems manually)             |
+| `/opt`       | Optional/third-party software packages                                     |
+| `/proc`      | Virtual filesystem with process and system info (e.g., `/proc/cpuinfo`)    |
+| `/root`      | Home directory for the root user                                           |
+| `/run`       | Runtime data for processes since the last boot                             |
+| `/srv`       | Data for services like FTP, web servers                                    |
+| `/sys`       | Virtual filesystem exposing kernel info                                    |
+| `/tmp`       | Temporary files, often cleared on reboot                                   |
+| `/usr`       | Secondary hierarchy for user-installed software                            |
+| `/usr/bin`   | Non-essential user binaries                                                |
+| `/usr/sbin`  | Non-essential system binaries                                              |
+| `/usr/lib`   | Libraries for `/usr/bin` and `/usr/sbin`                                   |
+| `/usr/local` | Locally compiled software (manual installs)                                |
+| `/var`       | Variable data like logs, mail, cache                                       |
+| `/var/log`   | System log files                                                           |
+
+
+
+1. File & Directory Management
+
+ls : Lists files and directories.
+Usage:
+ls -l          # Long listing format
+ls -a          # Show hidden files
+ls -lR	       # Recursively list subdirectories	
+ls -ld /etc    # List directories themselves, not contents	
+ls -li	       # Show inode number	
+ls -1	       # List one file per line	
+ls -F	       # Append indicator (e.g., / for dir)	
+ls -ltr        # Long listing sorted by modification time in reverse (oldest first)
+ls -lat        # Long listing, including hidden files, sorted by modification time.
+
+
+cd : Changes the current directory.
+Usage:
+cd /etc    # Go to /etc
+cd ..      # Go up one level
+cd ../..   # Go up two levels
+
+pwd: Prints the current working directory.
+Usage :
+pwd
+
+touch : The touch command is used to create empty files or update the timestamps of existing files in Linux.
+
+| Purpose                            |     Example Command                  |  Notes                                  |
+| ---------------------------------- | -------------------------------------|-----------------------------------------|
+| ✅ **Create a new file**           | `touch notes.txt`                    | Most common usage; creates an empty file|
+| ✅ **Create multiple files**       | `touch file1.txt file2.txt file3.txt | Efficient for batch creation            |
+
+
+cp : Copies files and directories.
+Usage:
+cp file1.txt /tmp/
+cp -r dir1/ /backup/
+
+mv : Moves or renames files and directories.
+Usage:
+mv file.txt /tmp/
+mv oldname.txt newname.txt
+
+rm : Removes files and directories.
+Usage:
+rm file.txt
+rm -r folder/
+
+mkdir :Creates a new directory.
+Usage:
+mkdir newfolder
+
+rmdir : Removes empty directories.
+Usage:
+rmdir oldfolder
+
+============================================================================================================
+2. Search & Locate
+
+find : Searches for files and directories recursively.
+Usage:
+find /home -name "*.txt"
+
+locate : Quickly finds files using a prebuilt database.
+Usage:
+locate passwd
+
+which :Shows the path of a command.
+Usage:
+which python
+
+whereis : Locates the binary, source, and manual page files.
+Usage:
+whereis ls
+
+============================================================================================================
+
+📁 Linux File Permissions
+
+🛡️ 1. Basic Permission Types
+
+Each file or directory in Linux has three types of access permissions for three user categories:
+Category	Meaning
+u	User (owner)
+g	Group
+o	Others
+a	All (user + group + others)
+
+Permission Types:
+
+Symbol	Octal	Description
+
+r	4	Read – view file or list dir
+w	2	Write – modify file or dir
+x	1	Execute – run file or enter dir
+
+🔢 2. Numeric (Octal) Permissions
+You can assign permissions using a 3-digit octal number:
+
+chmod 754 file.txt
+
+Permission	Octal	Binary	Meaning
+rwx	7	111	Read + Write + Execute
+rw-	6	110	Read + Write
+r-x	5	101	Read + Execute
+r--	4	100	Read only
+-wx	3	011	Write + Execute
+-w-	2	010	Write only
+--x	1	001	Execute only
+---	0	000	No permissions
+Example:
+chmod 755 script.sh
+
+
+This means:
+
+Owner: rwx (7)
+
+Group: r-x (5)
+
+Others: r-x (5)
+
+🔤 3. Symbolic Method (r, w, x)
+chmod u+x script.sh      # Add execute to user
+chmod go-w file.txt      # Remove write from group and others
+chmod a+r file.txt       # Add read to all
+
+chmod:Changes file permissions.
+Usage:
+chmod 755 script.sh
+chmod +x script.sh
+============================================================================================================
+
+📦 tar – Tape Archive
+
+The tar command is used to combine multiple files and directories into a single archive file 
+(commonly called a tarball). It can also compress those archives.
+
+🧠 Basic Concepts
+
+.tar file: An archive, not compressed.
+.tar.gz / .tgz: A compressed archive using gzip.
+.tar.bz2: Compressed using bzip2.
+.tar.xz: Compressed using xz.
+
+
+| Option | Example Command                         | Description                              |
+| ------ | --------------------------------------- | ---------------------------------------- |
+| `-c`   | `tar -cvf archive.tar file1 file2 dir/` | Create a new archive                     |
+| `-x`   | `tar -xvf archive.tar`                  | Extract files from an archive            |
+| `-t`   | `tar -tvf archive.tar`                  | List contents of an archive              |
+| `-v`   | `tar -cvf archive.tar file1 file2`      | Verbose output showing progress          |
+| `-f`   | `tar -cvf backup.tar file1 file2`       | Specify the archive file name            |
+| `-z`   | `tar -czvf archive.tar.gz file1 dir/`   | Compress the archive with gzip (`.gz`)   |
+| `-j`   | `tar -cjvf archive.tar.bz2 file1 dir/`  | Compress the archive with bzip2 (`.bz2`) |
+| `-J`   | `tar -cJvf archive.tar.xz file1 dir/`   | Compress the archive with xz (`.xz`)     |
+
+============================================================================================================
+
+
+
+chown : Changes file ownership.
+Usage:
+chown user:group file.txt
+
+chgrp :Changes group ownership of a file.
+Usage:
+chgrp admin file.txt
+
+umask : Sets default permission for new files.
+Usage:
+umask 022
+
+uptime:Shows how long the system has been running.
+Usage:
+
+uptime
+
+vmstat
+
+Description: Reports virtual memory statistics.
+Usage:
+
+vmstat 1
+
+iostat
+
+Description: Reports CPU and I/O statistics.
+Usage:
+
+iostat -x 1
+
+5. Networking & Connections
+ip
+
+Description: Manages IP addresses and routes.
+Usage:
+
+ip a           # Show IP addresses
+ip route       # Show routing table
+
+ping
+
+Description: Checks network connectivity.
+Usage:
+
+ping google.com
+
+traceroute / tracepath
+
+Description: Traces path packets take to host.
+Usage:
+
+traceroute google.com
+
+netstat / ss
+
+Description: Displays network connections and stats.
+Usage:
+
+ss -tuln
+
+nmap
+
+Description: Network scanning tool.
+Usage:
+
+nmap -sP 192.168.1.0/24
+
+curl
+
+Description: Transfers data from/to a server.
+Usage:
+
+curl https://example.com
+
+wget
+
+Description: Downloads files from the web.
+Usage:
+
+wget https://example.com/file.zip
+
+dig / nslookup
+
+Description: DNS lookups.
+Usage:
+
+dig example.com
+nslookup example.com
+
+nc (netcat)
+
+Description: Reads/writes data across networks.
+Usage:
+
+nc -zv 192.168.1.1 22
+
+6. File Compression & Archiving
+tar
+
+Description: Archives files.
+Usage:
+
+tar -czf backup.tar.gz /home/user
+
+gzip / gunzip
+
+Description: Compresses and decompresses files.
+Usage:
+
+gzip file.txt
+gunzip file.txt.gz
+
+7. User & Group Management
+useradd / adduser
+
+Description: Adds a new user.
+Usage:
+
+useradd -m newuser
+adduser newuser
+
+userdel
+
+Description: Deletes a user.
+Usage:
+
+userdel -r user
+
+usermod
+
+Description: Modifies a user.
+Usage:
+
+usermod -aG sudo user
+
+groupadd / groupdel
+
+Description: Adds or removes groups.
+Usage:
+
+groupadd devs
+groupdel devs
+
+gpasswd
+
+Description: Administers group membership.
+Usage:
+
+gpasswd -a user devs
+
+passwd
+
+Description: Changes user password.
+Usage:
+
+passwd username
+
+groups
+
+Description: Lists groups the user belongs to.
+Usage:
+
+groups
+
+chage
+
+Description: Changes user password expiry.
+Usage:
+
+chage -l user
+
+8. Scheduling & Automation
+cron / crontab
+
+Description: Schedules recurring tasks.
+Usage:
+
+crontab -e
+# Example:
+# 0 2 * * * /backup.sh
+
+at
+
+Description: Schedules one-time tasks.
+Usage:
+
+echo "reboot" | at 2am
+
+batch
+
+Description: Runs commands when system load is low.
+Usage:
+
+echo "apt update" | batch
+
+9. Logging & Services
+journalctl
+
+Description: Views logs from systemd.
+Usage:
+
+journalctl -xe
+
+systemctl
+
+Description: Manages services on systemd systems.
+Usage:
+
+systemctl status nginx
+systemctl start nginx
+
+service
+
+Description: Manages services (older systems).
+Usage:
+
+service ssh status
+
+logger
+
+Description: Logs a message to syslog.
+Usage:
+
+logger "Test log from admin"
+
+logrotate
+
+Description: Rotates and compresses log files.
+Usage:
+
+logrotate /etc/logrotate.conf
+
+shutdown / reboot
+
+Description: Powers off or restarts the system.
+Usage:
+
+shutdown -h now
+reboot
+
+10. Open Files & Ports
+lsof
+
+Description: Lists open files and network ports.
+Usage:
+
+lsof -i :80
+
+fuser
+
+Description: Identifies processes using files or ports.
+Usage:
+
+fuser -n tcp 80
+
+11. Backup & Data Sync
+rsync
+
+Description: Efficiently syncs files/directories.
+Usage:
+
+rsync -avz /source/ /destination/
+
+scp
+
+Description: Securely copies files over SSH.
+Usage:
+
+scp file.txt user@server:/path/
+
+dd
+
+Description: Copies and converts raw data (used in backups).
+Usage:
+
+dd if=/dev/sda of=/backup/disk.img bs=4M
+
+cpio
+
+Description: Archives files (less common than tar).
+Usage:
+
+find /etc | cpio -ov > etc_backup.cpio
+
+12. System Information
+uname
+
+Description: Shows system info.
+Usage:
+
+uname -a
+
+who
+
+Description: Shows who is logged in.
+Usage:
+
+who
+
+===================================================================================================================
+
+Here's a complete and clear comparison of Nginx and Apache (httpd) configuration paths, file structure,
+and common usage on RHEL/CentOS/Rocky/AlmaLinux systems — all in one place.
+
+| Feature              | **Nginx**                                               | **Apache (httpd)**            |
+| -------------------- | ------------------------------------------------------- | ----------------------------- |
+| **Main Config File** | `/etc/nginx/nginx.conf`                                 | `/etc/httpd/conf/httpd.conf`  |
+| **Config Directory** | `/etc/nginx/conf.d/`                                    | `/etc/httpd/conf.d/`          |
+| **Default Web Root** | `/usr/share/nginx/html/`                                | `/var/www/html/`              |
+| **Log Directory**    | `/var/log/nginx/`                                       | `/var/log/httpd/`             |
+| **Enable on Boot**   | `sudo systemctl enable nginx`                           | `sudo systemctl enable httpd` |
+| **Start/Stop**       | `sudo systemctl start nginx`                            | `sudo systemctl start httpd`  |
+| **Reload Config**    | `sudo nginx -s reload` or `sudo systemctl reload nginx` | `sudo systemctl reload httpd` |
+| **Test Config**      | `sudo nginx -t`                                         | `sudo apachectl configtest`   |
+
+
+
+🗂️ Nginx File Structure (/etc/nginx/)
+
+/etc/nginx/
+├── nginx.conf                # Main config
+├── conf.d/                   # Additional site configs (*.conf)
+│   └── mysite.conf
+├── modules/                  # Dynamic module files
+├── mime.types                # MIME types used by Nginx
+
+
+🗂️ Apache File Structure (/etc/httpd/)
+
+/etc/httpd/
+├── conf/
+│   └── httpd.conf            # Main config file
+├── conf.d/                   # Additional config files (*.conf)
+│   └── mysite.conf
+├── conf.modules.d/           # Module configuration files
+
+
+
+
+
+| Task                   | Nginx                                              | Apache (`httpd`)               |
+| ---------------------- | -------------------------------------------------- | ------------------------------ |
+| **Start service**      | `sudo systemctl start nginx`                       | `sudo systemctl start httpd`   |
+| **Stop service**       | `sudo systemctl stop nginx`                        | `sudo systemctl stop httpd`    |
+| **Restart service**    | `sudo systemctl restart nginx`                     | `sudo systemctl restart httpd` |
+| **Reload config**      | `sudo nginx -s reload` or `systemctl reload nginx` | `sudo systemctl reload httpd`  |
+| **Enable on boot**     | `sudo systemctl enable nginx`                      | `sudo systemctl enable httpd`  |
+| **Disable on boot**    | `sudo systemctl disable nginx`                     | `sudo systemctl disable httpd` |
+| **Test configuration** | `sudo nginx -t`                                    | `sudo apachectl configtest`    |
+| **Check status**       | `sudo systemctl status nginx`                      | `sudo systemctl status httpd`  |
+
+
+=================================================================================================================
+
+
+useful commands to work with Process IDs (PIDs) in RHEL (Red Hat Enterprise Linux) and similar 
+distributions like CentOS, Rocky Linux, or AlmaLinux.
+
+pidof <process_name>
+pidof nginx                              # Shows PID(s) of nginx process
+ps aux                                   # All processes with details
+ps -ef                                   # Full-format listing
+ps -ef | grep nginx                      # Find all nginx processes
+pgrep httpd                              # Find PID(s) for Apache
+pgrep -u root                            # All processes run by user root
+ps -p <PID> -o pid,ppid,cmd,%mem,%cpu
+top                                      # Shows real-time PID, CPU, MEM usage
+htop                                     # Better version (install via `yum install htop`)
+
+
+| Command                  | Purpose                       |
+| ------------------------ | ----------------------------- |
+| `pidof <name>`           | Get PID(s) of running process |
+| `pgrep <name>`           | Get PID(s) by process name    |
+| `ps -ef`                 | List all processes            |
+| `ps -p <pid>`            | Info for a specific PID       |
+| `kill <pid>`             | Terminate process             |
+| `cat /proc/<pid>/status` | Detailed PID info             |
+| `top`, `htop`            | Interactive process view      |
+
+
+==========================================================================================================================
+
+The tree command is used to display the directory structure of a path or the current directory in a tree-like format,
+ which is very helpful in visualizing folder hierarchies.
+
+sudo dnf install tree
+
+tree                     # Show directory tree from current directory
+tree /path/to/dir        # Show tree for specific directory
+
+| Command         | Description                                        |
+| --------------- | -------------------------------------------------- |
+| `tree -L <num>` | Limit the display depth (levels of subdirectories) |
+| `tree -d`       | Show **directories only**                          |
+| `tree -a`       | Show **all files**, including hidden (`.` files)   |
+| `tree -f`       | Show **full path** of each file                    |
+| `tree -s`       | Show **file sizes**                                |
+| `tree -h`       | Show sizes in **human-readable** format            |
+| `tree -p`       | Show **permissions**                               |
+| `tree -u`       | Show **owner/user**                                |
+| `tree -g`       | Show **group**                                     |
+==================================================================================================================
+
+The free command in Linux is used to display system memory usage — including RAM and swap space — in a simple and readable format.
+
+free -h               # Human-readable (e.g., 2.3G, 512M)
+free -m               # Show in MB
+free -g               # Show in GB
+free -t -h            # Total line, human-readable
+free -s 5             # Update every 5 seconds (until Ctrl+C)
+
+==================================================================================================================
+
+The pstree command displays running processes as a tree, showing which processes are parent/child of others. It's helpful for 
+understanding how services and subprocesses are structured.
+
+pstree -p                    # Show tree with PIDs
+pstree -u                    # Show tree with usernames
+pstree -apu                  # Show everything: args, PIDs, users
+pstree 1                     # Show only the tree under PID 1 (usually `systemd`)
+pstree root                  # Show only processes owned by root
+
+
+
+
+
+
+
