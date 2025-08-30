@@ -682,6 +682,38 @@ pstree -u                    # Show tree with usernames
 pstree -apu                  # Show everything: args, PIDs, users
 pstree 1                     # Show only the tree under PID 1 (usually `systemd`)
 pstree root                  # Show only processes owned by root
+==================================================================================================================
+
+🧠 Network Command Cheat Sheet for Cloud & DevOps
+
+| 🔧 Command                 | 📝 Purpose                                             |
+| -------------------------- | ------------------------------------------------------- |
+| `ping`                     | Test basic connectivity to a host                       |
+| `traceroute` / `tracepath` | Trace the route packets take to a host                  |
+| `dig`                      | DNS lookup & diagnostics                                |
+| `nslookup`                 | Query DNS servers                                       |
+| `host`                     | Simple DNS lookup                                       |
+| `curl`                     | Transfer data from or to a server (API testing)         |
+| `wget`                     | Download content from URLs                              |
+| `netstat` / `ss`           | Show open ports and active connections                  |
+| `lsof -i`                  | List open files and network sockets                     |
+| `ip a` / `ip addr`         | Show network interfaces and IPs                         |
+| `ip r` / `ip route`        | Show routing table                                      |
+| `ifconfig` (older)         | View/assign IP addresses (deprecated in modern systems) |
+| `nmap`                     | Port scanning and host discovery                        |
+| `tcpdump`                  | Capture and analyze network packets                     |
+| `telnet`                   | Check TCP port connectivity                             |
+| `nc` / `netcat`            | Port scanner, listener, and connector                   |
+| `ss`                       | Faster alternative to `netstat`                         |
+| `arp`                      | View ARP table                                          |
+| `ethtool`                  | Check network interface settings                        |
+| `nmcli`                    | NetworkManager command-line tool                        |
+| `whois`                    | Domain information lookup                               |
+| `iptables` / `ufw`         | Firewall configuration and rules                        |
+| `systemctl status network` | Check if networking service is active                   |
+
+
+
 
 
 
